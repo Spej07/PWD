@@ -4,7 +4,8 @@ import java.util.Scanner;
 
 public class PWDsystem {
     public static void main(String[] args) {
-             boolean exit = true;
+        int action;
+        boolean exit = true;
        
     do{    
         Scanner sc = new Scanner (System.in);
@@ -14,8 +15,13 @@ public class PWDsystem {
         System.out.println("3. Exit");
         System.out.println("-------------------------------------------");
         System.out.print("Enter Action: ");
-        int action = sc.nextInt();
-        
+         while (!sc.hasNextInt()) {
+            System.out.println("Invalid Action. Please enter a valid number.");
+            sc.next();
+            System.out.print("Enter Action: ");
+        }
+        action = sc.nextInt();
+
         switch(action){
             case 1: 
                 pwd pd = new pwd();

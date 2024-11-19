@@ -7,6 +7,7 @@ public class rhu {
         Scanner sc = new Scanner(System.in);
         rhu rh = new rhu();
         boolean exit = true;
+        int action;
                 
         do {
             System.out.println("\n----- WELCOME TO THE SYSTEM -----");
@@ -17,7 +18,12 @@ public class rhu {
             System.out.println("5. Exit");
             System.out.println("---------------------------------");
             System.out.print("Enter Action: ");
-            int action = sc.nextInt();
+            while (!sc.hasNextInt()) {
+            System.out.println("Invalid Action. Please enter a valid number.");
+            sc.next();
+            System.out.print("Enter Action: ");
+            }
+            action = sc.nextInt();
             
             switch (action) {                   
                 case 1:
@@ -61,7 +67,7 @@ public class rhu {
                     break;
 
                     default:
-                        System.out.println("Action Error, There's no such number");
+                        System.out.println("Action Error, There's no "+action+" in choices");
             }
 
         } while (exit);
@@ -71,11 +77,18 @@ public class rhu {
     public void addApp(){
         Scanner sc = new Scanner(System.in);
         config conf = new config();
+        int pid;
         
         System.out.print("Dotor Name: ");
         String did = sc.nextLine();
         System.out.print("Enter PWD ID: ");
-        int pid = sc.nextInt();
+        while (!sc.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a valid ID.");
+            sc.next();
+            System.out.print("Enter PWD ID: ");
+        }
+        pid = sc.nextInt();       
+        
         sc.nextLine();
         System.out.print("Date (mm/dd/yy): ");
         String dd = sc.nextLine();
@@ -108,15 +121,27 @@ public class rhu {
     public void updateApp() {
         Scanner sc = new Scanner(System.in);
         config conf = new config();
+        int id;
         
-        System.out.print("Enter Appoimentt ID: ");
-        int id = sc.nextInt();
-        
-        while((conf.getSingleValue("SELECT r_id FROM record WHERE r_id = ?", id)) == 0){
-        System.out.println("Selected Appointment ID doesn't exist!");
-        System.out.print("Enter Appointment ID again: ");
+        System.out.print("Enter Appointment ID: ");
+         while (!sc.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a valid ID.");
+            sc.next();
+            System.out.print("Enter Appointment ID: ");
+        }
         id = sc.nextInt();
-}
+        
+        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id = ?", id)) == 0){
+            System.out.println("Selected ID doesn't exist!");
+            System.out.print("Enter Appointment ID again: ");
+            while (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a valid ID.");
+                sc.next();
+                System.out.print("Enter Appointment ID again: ");
+            }
+            id = sc.nextInt();
+        }
+        
         sc.nextLine();
         System.out.print("New Date: ");
         String dd = sc.nextLine();
@@ -130,15 +155,27 @@ public class rhu {
     public void deleteApp(){
         Scanner sc = new Scanner(System.in);
         config conf = new config();
+        int id;
         
         System.out.print("\nEnter Appointment ID to Delete: ");
-        int id = sc.nextInt();
-
-        while((conf.getSingleValue("SELECT r_id FROM record WHERE r_id = ?", id)) == 0){
-        System.out.println("Selected Appointment ID doesn't exist!");
-        System.out.print("Enter Appointment ID again: ");
+         while (!sc.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a valid ID.");
+            sc.next();
+            System.out.print("Enter Appointment ID to Delete: ");
+        }
         id = sc.nextInt();
-}
+        
+        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id = ?", id)) == 0){
+            System.out.println("Selected ID doesn't exist!");
+            System.out.print("Enter Appointment ID again: ");
+            while (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a valid ID.");
+                sc.next();
+                System.out.print("Enter Appointment ID again: ");
+            }
+            id = sc.nextInt();
+        }
+        
         String sql = "DELETE FROM record WHERE r_id = ?";
         conf.deleteRecord(sql, id);
     }

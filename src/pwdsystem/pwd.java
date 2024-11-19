@@ -25,6 +25,11 @@ public class pwd {
         String ds = sc.nextLine();
         System.out.print("Contact Number: ");
         String cn = sc.nextLine();
+        while (!cn.matches("\\d{11}")) {
+            System.out.println("Invalid input. Please enter a valid 11-digit phone number.");
+            System.out.print("Enter Contact Number Again: ");
+            cn = sc.nextLine();
+        };
         
         String sql = "INSERT INTO pwd (s_fname, s_lname, s_db, s_address, s_status, dr_name, dr_spec, dr_cnum) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         conf.addRecord(sql, fname, lname, db, address, status, dfname, ds, cn);
@@ -51,15 +56,27 @@ public class pwd {
     public void updatePWD(){
         Scanner sc= new Scanner(System.in);
         config conf = new config();
+        int id;
         
         System.out.print("Enter PWD ID to Update: ");
-        int id = sc.nextInt();
-        
-        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id= ?", id)) == 0){
-        System.out.println("Selected ID doesn't exist!");
-        System.out.print("Enter Task ID again: ");
+        while (!sc.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a valid ID.");
+            sc.next();
+            System.out.print("Enter PWD ID to Update: ");
+        }
         id = sc.nextInt();
-}
+        
+        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id = ?", id)) == 0){
+            System.out.println("Selected ID doesn't exist!");
+            System.out.print("Enter PWD ID again: ");
+            while (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a valid ID.");
+                sc.next();
+                System.out.print("Enter PWD ID again: ");
+            }
+            id = sc.nextInt();
+        } 
+        
         System.out.print("Enter new Address: ");
         String address = sc.next();
         System.out.print("Enter new Status: ");
@@ -72,15 +89,27 @@ public class pwd {
     public void deletePWD(){
         Scanner sc= new Scanner(System.in);
         config conf = new config();
+        int id;
         
         System.out.print("Enter PWD ID to Delete: ");
-        int id = sc.nextInt();
-        
-        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id= ?", id)) == 0){
-        System.out.println("Selected ID doesn't exist!");
-        System.out.print("Enter Task ID again: ");
+        while (!sc.hasNextInt()) {
+            System.out.println("Invalid input. Please enter a valid ID.");
+            sc.next();
+            System.out.print("Enter PWD ID to Delete: ");
+        }
         id = sc.nextInt();
-}     
+        
+        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id = ?", id)) == 0){
+            System.out.println("Selected ID doesn't exist!");
+            System.out.print("Enter PWD ID again: ");
+            while (!sc.hasNextInt()) {
+                System.out.println("Invalid input. Please enter a valid ID.");
+                sc.next();
+                System.out.print("Enter PWD ID again: ");
+            }
+            id = sc.nextInt();
+        }
+        
         String qry = "DELETE FROM pwd WHERE s_id = ?";
         conf.deleteRecord(qry, id);
     }
@@ -89,6 +118,7 @@ public class pwd {
     Scanner sc = new Scanner(System.in);
     pwd pd = new pwd();
         boolean exit = true;
+        int action;
         
         do{
             System.out.println("\n---------- WELCOME TO THE SYSTEM ---------");
@@ -99,7 +129,12 @@ public class pwd {
             System.out.println("| 5. Exit                                |");
             System.out.println("------------------------------------------");
             System.out.print("Enter Action: ");
-            int action = sc.nextInt();
+            while (!sc.hasNextInt()) {
+            System.out.println("Invalid Action. Please enter a valid number.");
+            sc.next();
+            System.out.print("Enter Action: ");
+            }
+            action = sc.nextInt();
             
             switch(action){
                 case 1:
