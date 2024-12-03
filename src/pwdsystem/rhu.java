@@ -165,7 +165,7 @@ public class rhu {
         }
         id = sc.nextInt();
         
-        while((conf.getSingleValue("SELECT s_id FROM pwd WHERE s_id = ?", id)) == 0){
+        while((conf.getSingleValue("SELECT r_id FROM record WHERE r_id = ?", id)) == 0){
             System.out.println("Selected ID doesn't exist!");
             System.out.print("Enter Appointment ID again: ");
             while (!sc.hasNextInt()) {
